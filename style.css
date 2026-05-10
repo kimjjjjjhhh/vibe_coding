@@ -219,6 +219,56 @@ header h1 span {
     animation: fadeIn 0.5s ease-out;
 }
 
+.partnership {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 2px dashed #eee;
+    text-align: center;
+}
+
+.partnership h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.partnership p {
+    margin-bottom: 25px;
+    color: #666;
+}
+
+.contact-form {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.contact-form input, .contact-form textarea {
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+    border-color: var(--velvet-primary);
+}
+
+.contact-form textarea {
+    height: 120px;
+    resize: none;
+}
+
 .hidden {
     display: none !important;
 }
@@ -286,4 +336,5 @@ footer {
     .input-group input { max-width: 100%; border-radius: 50px; }
     .container { padding: 20px; }
     .searched-song-info { flex-direction: column; text-align: center; }
+    .form-row { flex-direction: column; }
 }
