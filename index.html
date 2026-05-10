@@ -3,51 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Red Velvet Song Recommender</title>
+    <title>레드벨벳 노래 추천 & AI 동물상 테스트 | ReVeLuv 팬 포털</title>
+    <meta name="description" content="레드벨벳의 명곡들을 당신의 기분과 취향에 맞춰 추천해드립니다. AI 동물상 테스트를 통해 나와 닮은 레드벨벳 멤버도 확인해보세요. 레베럽을 위한 최고의 팬 사이트!">
+    <meta name="keywords" content="레드벨벳, Red Velvet, 노래 추천, 동물상 테스트, AI, 아이린, 슬기, 웬디, 조이, 예리, K-POP, 레베럽">
     <meta name="google-adsense-account" content="ca-pub-8547358509424046">
+    
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8547358509424046" crossorigin="anonymous"></script>
+    
     <!-- TensorFlow & Teachable Machine Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
     <div class="container">
+        <!-- Site Header & Navigation -->
         <nav class="main-nav">
             <button id="nav-recommender" class="nav-btn active">노래 추천</button>
+            <button id="nav-members" class="nav-btn">멤버 소개</button>
             <button id="nav-aitest" class="nav-btn">동물상 테스트</button>
         </nav>
 
-        <header>
-            <h1>Red Velvet <span>Recommender</span></h1>
-            <p class="subtitle">당신의 기분에 맞는 레드벨벳의 노래를 찾아보세요.</p>
+        <header class="site-header">
+            <h1>Red Velvet <span>Portal</span></h1>
+            <p class="subtitle">음악과 AI가 만나는 레드벨벳 팬들을 위한 공간</p>
         </header>
 
         <main>
-            <!-- 1. Song Recommender Section (Main) -->
-            <section id="recommender-section" class="content-section">
-                <div class="controls">
-                    <div class="concept-buttons">
-                        <button id="btn-red" class="btn btn-red">Red (상큼발랄)</button>
-                        <button id="btn-velvet" class="btn btn-velvet">Velvet (고혹우아)</button>
-                    </div>
-                    
-                    <div class="input-group">
-                        <input type="text" id="user-song-input" placeholder="좋아하는 노래 제목을 입력하세요 (예: Hype Boy)">
-                        <button id="btn-similar" class="btn btn-secondary">비슷한 곡 추천!</button>
-                    </div>
+            <!-- 1. About Us (Introduction for AdSense Content) -->
+            <section id="about-section" class="about-us card-style">
+                <h2>About This Portal</h2>
+                <p>본 사이트는 대한민국을 대표하는 5인조 걸그룹 **레드벨벳(Red Velvet)**의 방대한 음악 세계를 더 깊이 즐길 수 있도록 돕는 팬 메이드 서비스입니다. 레드벨벳은 상큼하고 발랄한 'Red' 컨셉과 고혹적이고 부드러운 'Velvet' 컨셉을 넘나들며 독보적인 장르를 구축해왔습니다. 우리는 여러분의 취향을 분석하여 최적의 곡을 추천하고, AI 기술을 통해 멤버들과의 연결고리를 찾아드립니다.</p>
+            </section>
 
-                    <button id="btn-random" class="btn btn-primary">랜덤 추천 받기!</button>
+            <!-- 2. Song Recommender Section (Primary) -->
+            <section id="recommender-section" class="content-section">
+                <div class="controls card-style">
+                    <div class="section-title">
+                        <h3>Smart Recommendation</h3>
+                        <p>현재 기분이나 좋아하는 노래를 입력하면 가장 잘 어울리는 곡을 제안합니다.</p>
+                    </div>
+                    <div class="concept-buttons">
+                        <button id="btn-red" class="btn btn-red">Red Concept</button>
+                        <button id="btn-velvet" class="btn btn-velvet">Velvet Concept</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="user-song-input" placeholder="좋아하는 노래 제목을 입력하세요 (예: Psycho)">
+                        <button id="btn-similar" class="btn btn-secondary">맞춤 추천</button>
+                    </div>
+                    <button id="btn-random" class="btn btn-primary-outline">랜덤 추천</button>
                 </div>
 
-                <!-- Loading Spinner -->
                 <div id="loading" class="loading hidden">
                     <div class="spinner"></div>
-                    <p>노래 정보를 분석 중입니다...</p>
+                    <p>분석 중...</p>
                 </div>
 
                 <section id="recommendation-result" class="result-area hidden">
@@ -55,17 +69,17 @@
                         <div class="searched-song-info">
                             <img id="searched-art" src="" alt="Album Art">
                             <div class="searched-text">
-                                <p class="label">당신이 선택한 곡</p>
+                                <p class="label">Your Search</p>
                                 <p id="searched-title" class="title"></p>
                                 <p id="searched-genre" class="genre"></p>
                             </div>
                         </div>
-                        <div class="arrow">▼</div>
+                        <div class="arrow">▼ Matching ▼</div>
                     </div>
 
                     <div class="song-card">
                         <div class="song-info">
-                            <p class="rec-label">추천 레드벨벳 노래</p>
+                            <p class="rec-label">Recommended for you</p>
                             <h2 id="song-title">Song Title</h2>
                             <p id="song-album" class="album-name">Album Name</p>
                             <p id="song-vibe" class="vibe-tag">Red / Velvet</p>
@@ -75,20 +89,46 @@
                 </section>
             </section>
 
-            <!-- 2. AI Animal Face Test Section (Secondary) -->
+            <!-- 3. Red Velvet Member Profiles (Rich Text Content) -->
+            <section id="members-section" class="content-section hidden">
+                <div class="members-grid">
+                    <article class="member-card">
+                        <h3>IRENE (아이린)</h3>
+                        <p>레드벨벳의 리더이자 메인 래퍼. 고전적인 미인상의 정석으로 불리며, 'Velvet' 컨셉에서 중심을 잡아주는 우아한 퍼포먼스가 특징입니다. 차가워 보이는 이미지와 달리 멤버들을 세심하게 챙기는 따뜻한 리더십을 가졌습니다.</p>
+                    </article>
+                    <article class="member-card">
+                        <h3>SEULGI (슬기)</h3>
+                        <p>메인 댄서이자 리드 보컬. 무결점 퍼포먼스와 매력적인 음색을 모두 갖춘 올라운더 플레이어입니다. 특유의 무쌍꺼풀 눈매에서 뿜어져 나오는 카리스마와 무대 밖의 순수한 반전 매력으로 사랑받고 있습니다.</p>
+                    </article>
+                    <article class="member-card">
+                        <h3>WENDY (웬디)</h3>
+                        <p>메인 보컬. 독보적인 가창력과 섬세한 감정 표현으로 레드벨벳 음악의 깊이를 더해줍니다. 파워풀한 고음부터 부드러운 R&B까지 소화 가능한 보컬리스트로, 긍정적이고 밝은 에너지의 대명사입니다.</p>
+                    </article>
+                    <article class="member-card">
+                        <h3>JOY (조이)</h3>
+                        <p>리드 래퍼이자 서브 보컬. 맑고 청아한 음색이 매력적이며, 화사한 미소와 상큼한 매력으로 'Red' 컨셉에서 독보적인 존재감을 드러냅니다. 최근에는 배우와 솔로 가수로도 활발히 활동하며 스펙트럼을 넓히고 있습니다.</p>
+                    </article>
+                    <article class="member-card">
+                        <h3>YERI (예리)</h3>
+                        <p>서브 보컬이자 서브 래퍼. 팀의 막내로 합류하여 통통 튀는 매력과 친화력을 더해주었습니다. 작사, 작곡에 직접 참여하는 등 아티스트로서 끊임없이 성장하는 모습을 보여주며 MZ세대의 워너비로 자리 잡았습니다.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- 4. AI Animal Face Test Section -->
             <section id="aitest-section" class="content-section hidden">
-                <div class="ai-test">
+                <div class="ai-test card-style">
                     <div class="section-title">
-                        <span class="badge">AI 서비스</span>
-                        <h3>동물상 테스트</h3>
-                        <p>사진을 업로드하여 당신의 동물상을 확인해보세요!</p>
+                        <span class="badge">AI Technology</span>
+                        <h3>동물상 & 멤버 매칭</h3>
+                        <p>최신 AI 모델이 당신의 이미지를 분석하여 가장 닮은 멤버를 찾아드립니다.</p>
                     </div>
                     
                     <div class="ai-container">
                         <div class="file-upload-wrapper">
                             <input type="file" id="image-input" accept="image/*" class="hidden">
-                            <label for="image-input" class="btn btn-secondary">사진 선택하기</label>
-                            <p class="file-hint">정면 사진을 권장합니다.</p>
+                            <label for="image-input" class="btn btn-secondary">사진 업로드</label>
+                            <p class="file-hint">정면 사진을 사용하면 더 정확한 결과가 나옵니다.</p>
                         </div>
                         
                         <div id="image-preview-container" class="image-preview-wrapper hidden">
@@ -97,7 +137,7 @@
 
                         <div id="ai-loading" class="loading hidden">
                             <div class="spinner"></div>
-                            <p>AI가 이미지를 분석하고 있습니다...</p>
+                            <p>인공지능이 특징을 추출하고 있습니다...</p>
                         </div>
 
                         <div id="label-container" class="label-wrapper"></div>
@@ -109,23 +149,35 @@
                 </div>
             </section>
 
-            <section class="partnership">
-                <h3>제휴 문의</h3>
-                <p>레드벨벳 추천 서비스와 함께하고 싶으신가요?</p>
+            <!-- AdSense Integration -->
+            <section class="ad-container">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-8547358509424046"
+                     data-ad-slot="auto"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+            </section>
+
+            <!-- Partnership Section -->
+            <section class="partnership card-style">
+                <h3>Contact & Business</h3>
+                <p>본 사이트와의 제휴나 협업을 원하시면 아래 양식을 작성해 주세요.</p>
                 <form id="contact-form" class="contact-form">
                     <div class="form-row">
-                        <input type="text" name="name" placeholder="성함 또는 기업명" required>
-                        <input type="email" name="email" placeholder="이메일 주소" required>
+                        <input type="text" name="name" placeholder="이름/기업명" required>
+                        <input type="email" name="email" placeholder="회신 받을 이메일" required>
                     </div>
-                    <textarea name="message" placeholder="문의 내용을 입력해 주세요" required></textarea>
-                    <button type="submit" id="submit-btn" class="btn btn-primary">문의하기</button>
+                    <textarea name="message" placeholder="상세 문의 내용을 입력해 주세요" required></textarea>
+                    <button type="submit" id="submit-btn" class="btn btn-primary">보내기</button>
                     <p id="form-status" class="form-status hidden"></p>
                 </form>
             </section>
 
-            <section class="comments">
-                <h3>Fan Community</h3>
-                <p>레베럽 여러분의 의견을 남겨주세요!</p>
+            <!-- Disqus Section -->
+            <section class="comments card-style">
+                <h3>Fan Interaction</h3>
                 <div id="disqus_thread"></div>
                 <script>
                     (function() { 
@@ -135,27 +187,32 @@
                     (d.head || d.body).appendChild(s);
                     })();
                 </script>
-                <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-            </section>
-
-            <!-- Google AdSense Unit -->
-            <section class="ad-section">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-8547358509424046"
-                     data-ad-slot="auto"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
             </section>
         </main>
 
-        <footer>
-            <p>&copy; 2026 Red Velvet Song Recommender. ReVeLuv Forever.</p>
+        <footer class="site-footer">
+            <div class="footer-links">
+                <a href="#" id="open-privacy">개인정보처리방침</a> | 
+                <a href="https://github.com/kimjjjjjhhh/vibe_coding" target="_blank">Open Source</a>
+            </div>
+            <p>&copy; 2026 Red Velvet Fan Portal. All images/music rights to SM Entertainment.</p>
         </footer>
     </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Privacy Policy (개인정보처리방침)</h2>
+            <div class="privacy-text">
+                <p><strong>1. 개인정보 수집 및 이용:</strong> 본 사이트는 제휴 문의 폼을 통해 이름과 이메일 주소를 수집합니다. 수집된 정보는 문의 사항에 대한 답변 목적으로만 사용됩니다.</p>
+                <p><strong>2. 쿠키(Cookies) 사용:</strong> 본 사이트는 Google AdSense 및 Disqus 서비스를 제공하기 위해 쿠키를 사용합니다. 쿠키는 사용자 맞춤 광고 제공 및 댓글 기능 활성화에 사용됩니다.</p>
+                <p><strong>3. 데이터 보안:</strong> 수집된 개인정보는 안전하게 보호되며, 사용자의 동의 없이 제3자에게 제공되지 않습니다.</p>
+                <p><strong>4. AI 테스트 관련:</strong> 동물상 테스트를 위해 업로드된 사진은 서버에 저장되지 않으며, 사용자의 브라우저 내에서 AI 모델에 의해 즉시 분석된 후 폐기됩니다.</p>
+            </div>
+        </div>
+    </div>
+
     <script src="main.js"></script>
 </body>
 </html>

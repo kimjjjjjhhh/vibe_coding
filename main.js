@@ -63,23 +63,36 @@ const songs = [
 
 // --- Navigation Toggle Logic ---
 const navRecommender = document.getElementById('nav-recommender');
+const navMembers = document.getElementById('nav-members');
 const navAiTest = document.getElementById('nav-aitest');
+
 const recommenderSection = document.getElementById('recommender-section');
+const membersSection = document.getElementById('members-section');
 const aiTestSection = document.getElementById('aitest-section');
+const aboutSection = document.getElementById('about-section');
+
+function hideAllSections() {
+    [recommenderSection, membersSection, aiTestSection, aboutSection].forEach(s => s.classList.add('hidden'));
+    [navRecommender, navMembers, navAiTest].forEach(n => n.classList.remove('active'));
+}
 
 navRecommender.addEventListener('click', () => {
+    hideAllSections();
     navRecommender.classList.add('active');
-    navAiTest.classList.remove('active');
     recommenderSection.classList.remove('hidden');
-    aiTestSection.classList.add('hidden');
+    aboutSection.classList.remove('hidden');
+});
+
+navMembers.addEventListener('click', () => {
+    hideAllSections();
+    navMembers.classList.add('active');
+    membersSection.classList.remove('hidden');
 });
 
 navAiTest.addEventListener('click', () => {
+    hideAllSections();
     navAiTest.classList.add('active');
-    navRecommender.classList.remove('active');
     aiTestSection.classList.remove('hidden');
-    recommenderSection.classList.add('hidden');
-    // Pre-load model if not loaded
     if (!model) initAI();
 });
 
@@ -241,12 +254,12 @@ if (contactForm) {
             formStatus.classList.remove('hidden');
         } finally {
             submitBtn.disabled = false;
-            submitBtn.textContent = '문의하기';
+            submitBtn.textContent = '보내기';
         }
     });
 }
 
-// --- AI Animal Face Test Logic (Updated to File Upload) ---
+// --- AI Animal Face Test Logic ---
 const MODEL_URL = "./my_model/";
 let model, maxPredictions;
 
@@ -261,69 +274,52 @@ const matchText = document.getElementById('match-text');
 async function initAI() {
     const modelURL = MODEL_URL + "model.json";
     const metadataURL = MODEL_URL + "metadata.json";
-
     try {
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
-        console.log("AI Model Loaded Successfully");
     } catch (error) {
         console.error("AI Model Load Error:", error);
-        // We won't alert here immediately, but we'll show a message if they try to upload
     }
 }
 
-imageInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-        imagePreview.src = event.target.result;
-        imagePreviewContainer.classList.remove('hidden');
-        aiResultMatch.classList.add('hidden');
-        labelContainer.innerHTML = '';
-        
-        if (!model) {
-            aiLoading.classList.remove('hidden');
-            await initAI();
-            aiLoading.classList.add('hidden');
-        }
-
-        if (model) {
-            predictAI();
-        } else {
-            alert("AI 모델을 불러오지 못했습니다. './my_model/' 폴더에 모델 파일이 있는지 확인해주세요.");
-        }
-    };
-    reader.readAsDataURL(file);
-});
+if (imageInput) {
+    imageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            imagePreview.src = event.target.result;
+            imagePreviewContainer.classList.remove('hidden');
+            aiResultMatch.classList.add('hidden');
+            labelContainer.innerHTML = '';
+            if (!model) {
+                aiLoading.classList.remove('hidden');
+                await initAI();
+                aiLoading.classList.add('hidden');
+            }
+            if (model) predictAI();
+            else alert("AI 모델을 불러오지 못했습니다.");
+        };
+        reader.readAsDataURL(file);
+    });
+}
 
 async function predictAI() {
     aiLoading.classList.remove('hidden');
-    
-    // Tiny delay to ensure image is rendered
     setTimeout(async () => {
         const prediction = await model.predict(imagePreview);
         aiLoading.classList.add('hidden');
-        
         let highestProb = 0;
         let bestClass = "";
-
         labelContainer.innerHTML = '';
         for (let i = 0; i < maxPredictions; i++) {
             const prob = prediction[i].probability;
             const className = prediction[i].className;
-            
             const div = document.createElement('div');
             div.innerHTML = `${className}: ${(prob * 100).toFixed(0)}%`;
             labelContainer.appendChild(div);
-
-            if (prob > highestProb) {
-                highestProb = prob;
-                bestClass = className;
-            }
+            if (prob > highestProb) { highestProb = prob; bestClass = className; }
         }
-
         if (highestProb > 0.4) {
             aiResultMatch.classList.remove('hidden');
             const lowerClass = bestClass.toLowerCase();
@@ -337,3 +333,25 @@ async function predictAI() {
         }
     }, 200);
 }
+
+// --- Privacy Modal Logic ---
+const openPrivacy = document.getElementById('open-privacy');
+const privacyModal = document.getElementById('privacy-modal');
+const closeModal = document.querySelector('.close-modal');
+
+if (openPrivacy) {
+    openPrivacy.addEventListener('click', (e) => {
+        e.preventDefault();
+        privacyModal.classList.remove('hidden');
+    });
+}
+
+if (closeModal) {
+    closeModal.addEventListener('click', () => {
+        privacyModal.classList.add('hidden');
+    });
+}
+
+window.addEventListener('click', (e) => {
+    if (e.target === privacyModal) privacyModal.classList.add('hidden');
+});
