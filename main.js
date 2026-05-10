@@ -1,64 +1,24 @@
 const songs = [
-    {
-        title: "Dumb Dumb",
-        album: "The Red",
-        concept: "Red",
-        desc: "중독성 강한 훅과 파워풀한 댄스가 돋보이는 레드 컨셉의 정석! 에너지를 얻고 싶을 때 추천해요."
-    },
-    {
-        title: "Russian Roulette",
-        album: "Russian Roulette",
-        concept: "Red",
-        desc: "상큼발랄한 신스팝 사운드가 특징이에요. 기분 전환이 필요할 때 딱 맞는 곡입니다."
-    },
-    {
-        title: "Red Flavor (빨간 맛)",
-        album: "The Red Summer",
-        concept: "Red",
-        desc: "여름 하면 떠오르는 대표곡! 뜨거운 태양 아래 시원한 과일 에이드 같은 청량함을 느껴보세요."
-    },
-    {
-        title: "Peek-A-Boo",
-        album: "Perfect Velvet",
-        concept: "Velvet",
-        desc: "벨벳 컨셉에 레드가 살짝 섞인 매혹적인 업템포 팝 곡이에요. 미스테리하고 쿨한 분위기를 원할 때 추천!"
-    },
-    {
-        title: "Bad Boy",
-        album: "The Perfect Red Velvet",
-        concept: "Velvet",
-        desc: "그루비한 신스 사운드와 R&B 멜로디가 일품인 곡입니다. 시크하고 힙한 무드에 젖고 싶을 때 들어보세요."
-    },
-    {
-        title: "Psycho",
-        album: "The ReVe Festival: Finale",
-        concept: "Velvet",
-        desc: "우아하면서도 드라마틱한 멜로디가 매력적인 곡이에요. 깊은 감성에 빠지고 싶은 밤에 어울립니다."
-    },
-    {
-        title: "Queendom",
-        album: "Queendom",
-        concept: "Red",
-        desc: "우리는 모두 퀸이자 킹! 긍정적인 에너지와 화려한 팝 사운드가 돋보이는 축제 같은 노래입니다."
-    },
-    {
-        title: "Feel My Rhythm",
-        album: "The ReVe Festival 2022 - Feel My Rhythm",
-        concept: "Red",
-        desc: "바흐의 'G선상의 아리아'를 샘플링한 우아하고 화사한 봄의 노래입니다. 꽃가루를 날리며 즐겨보세요."
-    },
-    {
-        title: "Chill Kill",
-        album: "Chill Kill",
-        concept: "Velvet",
-        desc: "밝음과 어둠이 공존하는 서늘하고도 뜨거운 벨벳 컨셉의 진수. 드라마틱한 전개를 느껴보세요."
-    },
-    {
-        title: "Cosmic",
-        album: "Cosmic",
-        concept: "Red",
-        desc: "환상적인 우주 여행을 떠나는 듯한 몽환적이고 밝은 사운드! 사랑하는 사람과 함께 듣기 좋아요."
-    }
+    { title: "Dumb Dumb", album: "The Red", concept: "Red", desc: "중독성 강한 훅과 파워풀한 댄스가 돋보이는 레드 컨셉의 정석! 에너지를 얻고 싶을 때 추천해요." },
+    { title: "Russian Roulette", album: "Russian Roulette", concept: "Red", desc: "상큼발랄한 신스팝 사운드가 특징이에요. 기분 전환이 필요할 때 딱 맞는 곡입니다." },
+    { title: "Red Flavor (빨간 맛)", album: "The Red Summer", concept: "Red", desc: "여름 하면 떠오르는 대표곡! 뜨거운 태양 아래 시원한 과일 에이드 같은 청량함을 느껴보세요." },
+    { title: "Peek-A-Boo", album: "Perfect Velvet", concept: "Velvet", desc: "벨벳 컨셉에 레드가 살짝 섞인 매혹적인 업템포 팝 곡이에요. 미스테리하고 쿨한 분위기를 원할 때 추천!" },
+    { title: "Bad Boy", album: "The Perfect Red Velvet", concept: "Velvet", desc: "그루비한 신스 사운드와 R&B 멜로디가 일품인 곡입니다. 시크하고 힙한 무드에 젖고 싶을 때 들어보세요." },
+    { title: "Psycho", album: "The ReVe Festival: Finale", concept: "Velvet", desc: "우아하면서도 드라마틱한 멜로디가 매력적인 곡이에요. 깊은 감성에 빠지고 싶은 밤에 어울립니다." },
+    { title: "Queendom", album: "Queendom", concept: "Red", desc: "우리는 모두 퀸이자 킹! 긍정적인 에너지와 화려한 팝 사운드가 돋보이는 축제 같은 노래입니다." },
+    { title: "Feel My Rhythm", album: "The ReVe Festival 2022 - Feel My Rhythm", concept: "Red", desc: "바흐의 'G선상의 아리아'를 샘플링한 우아하고 화사한 봄의 노래입니다. 꽃가루를 날리며 즐겨보세요." },
+    { title: "Chill Kill", album: "Chill Kill", concept: "Velvet", desc: "밝음과 어둠이 공존하는 서늘하고도 뜨거운 벨벳 컨셉의 진수. 드라마틱한 전개를 느껴보세요." },
+    { title: "Cosmic", album: "Cosmic", concept: "Red", desc: "환상적인 우주 여행을 떠나는 듯한 몽환적이고 밝은 사운드! 사랑하는 사람과 함께 듣기 좋아요." },
+    { title: "Ice Cream Cake", album: "Ice Cream Cake", concept: "Red", desc: "레드벨벳의 상큼발랄한 매력이 극대화된 곡! 달콤한 아이스크림 같은 에너지를 느껴보세요." },
+    { title: "Rookie", album: "Rookie", concept: "Red", desc: "통통 튀는 비트와 반복되는 훅이 매력적인 곡입니다. 기분이 울적할 때 들으면 바로 신이 나요!" },
+    { title: "Automatic", album: "Ice Cream Cake", concept: "Velvet", desc: "벨벳 컨셉의 시작을 알린 세련된 R&B 곡. 부드럽고 몽환적인 분위기에 취하고 싶을 때 추천합니다." },
+    { title: "One Of These Nights (7월 7일)", album: "The Velvet", concept: "Velvet", desc: "한 편의 동화 같은 감성적인 발라드 곡입니다. 비 오는 날이나 차분하게 감상에 젖고 싶을 때 들어보세요." },
+    { title: "Umpah Umpah", album: "The ReVe Festival: Day 2", concept: "Red", desc: "시원한 여름 바다가 생각나는 청량한 댄스곡! 숨 가쁜 일상 속에서 잠시 휴식을 원할 때 딱이에요." },
+    { title: "Zimzalabim", album: "The ReVe Festival: Day 1", concept: "Red", desc: "마법 같은 주문! 실험적이고 중독성 강한 사운드로 새로운 자극이 필요할 때 추천합니다." },
+    { title: "RBB (Really Bad Boy)", album: "RBB", concept: "Red", desc: "파워풀한 가창력과 화려한 애드리브가 돋보이는 곡입니다. 자신감을 충전하고 싶을 때 감상해보세요." },
+    { title: "Sunny Side Up!", album: "The ReVe Festival: Day 1", concept: "Velvet", desc: "그루비하고 힙한 느낌의 벨벳 수록곡 명곡! 느긋한 오후 햇살 아래서 듣기 좋습니다." },
+    { title: "In My Dreams", album: "The ReVe Festival 2022 - Feel My Rhythm", concept: "Velvet", desc: "몽환적이고 서정적인 멜로디가 일품인 곡입니다. 잠들기 전 조용히 감상해보세요." },
+    { title: "Underwater", album: "Chill Kill", concept: "Velvet", desc: "깊은 바닷속에 있는 듯한 신비롭고 몽환적인 분위기를 자아냅니다. 고혹적인 매력을 느껴보세요." }
 ];
 
 // --- Navigation Toggle Logic ---
