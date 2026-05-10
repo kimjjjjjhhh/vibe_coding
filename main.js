@@ -64,6 +64,8 @@ const songs = [
 const btnRed = document.getElementById('btn-red');
 const btnVelvet = document.getElementById('btn-velvet');
 const btnRandom = document.getElementById('btn-random');
+const btnSimilar = document.getElementById('btn-similar');
+const userSongInput = document.getElementById('user-song-input');
 const resultArea = document.getElementById('recommendation-result');
 
 const songTitle = document.getElementById('song-title');
@@ -73,8 +75,6 @@ const songDesc = document.getElementById('song-desc');
 
 function showRecommendation(song) {
     resultArea.classList.remove('hidden');
-    
-    // Add a quick flash effect
     resultArea.style.opacity = '0';
     setTimeout(() => {
         songTitle.textContent = song.title;
@@ -82,7 +82,6 @@ function showRecommendation(song) {
         songVibe.textContent = song.concept;
         songDesc.textContent = song.desc;
         
-        // Change color based on concept
         if (song.concept === 'Red') {
             songVibe.style.color = '#ff1744';
             songTitle.style.color = '#c4001d';
@@ -95,19 +94,51 @@ function showRecommendation(song) {
     }, 50);
 }
 
+function recommendSimilar() {
+    const input = userSongInput.value.trim().toLowerCase();
+    if (!input) {
+        alert('노래 제목을 입력해 주세요!');
+        return;
+    }
+
+    // Simple keyword based matching logic for demo purposes
+    const redKeywords = ['hype', 'attention', 'bubble', 'pop', 'sunny', 'summer', 'happy', 'bright', 'love', 'cheer'];
+    const velvetKeywords = ['night', 'dark', 'moody', 'slow', 'r&b', 'cool', 'chill', 'smooth', 'deep', 'dreamy'];
+
+    const isRedMatched = redKeywords.some(keyword => input.includes(keyword));
+    const isVelvetMatched = velvetKeywords.some(keyword => input.includes(keyword));
+
+    let recommendedSong;
+    if (isRedMatched) {
+        const redSongs = songs.filter(s => s.concept === 'Red');
+        recommendedSong = redSongs[Math.floor(Math.random() * redSongs.length)];
+    } else if (isVelvetMatched) {
+        const velvetSongs = songs.filter(s => s.concept === 'Velvet');
+        recommendedSong = velvetSongs[Math.floor(Math.random() * velvetSongs.length)];
+    } else {
+        // Random fallback with a note
+        recommendedSong = songs[Math.floor(Math.random() * songs.length)];
+    }
+
+    showRecommendation(recommendedSong);
+}
+
 btnRed.addEventListener('click', () => {
     const redSongs = songs.filter(s => s.concept === 'Red');
-    const randomSong = redSongs[Math.floor(Math.random() * redSongs.length)];
-    showRecommendation(randomSong);
+    showRecommendation(redSongs[Math.floor(Math.random() * redSongs.length)]);
 });
 
 btnVelvet.addEventListener('click', () => {
     const velvetSongs = songs.filter(s => s.concept === 'Velvet');
-    const randomSong = velvetSongs[Math.floor(Math.random() * velvetSongs.length)];
-    showRecommendation(randomSong);
+    showRecommendation(velvetSongs[Math.floor(Math.random() * velvetSongs.length)]);
 });
 
 btnRandom.addEventListener('click', () => {
-    const randomSong = songs[Math.floor(Math.random() * songs.length)];
-    showRecommendation(randomSong);
+    showRecommendation(songs[Math.floor(Math.random() * songs.length)]);
+});
+
+btnSimilar.addEventListener('click', recommendSimilar);
+
+userSongInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') recommendSimilar();
 });

@@ -6,6 +6,7 @@
     --bg-color: #fffafb;
     --text-color: #2c3e50;
     --card-bg: rgba(255, 255, 255, 0.9);
+    --secondary-color: #00bcd4;
 }
 
 * {
@@ -67,6 +68,28 @@ header h1 span {
     gap: 15px;
 }
 
+.input-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.input-group input {
+    flex: 1;
+    max-width: 400px;
+    padding: 12px 20px;
+    border: 2px solid #eee;
+    border-radius: 50px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: var(--secondary-color);
+}
+
 .btn {
     padding: 12px 25px;
     border: none;
@@ -99,6 +122,16 @@ header h1 span {
     background-color: var(--velvet-dark);
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(74, 20, 140, 0.4);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #00acc1;
+    transform: translateY(-3px);
 }
 
 .btn-primary {
@@ -176,5 +209,7 @@ footer {
 @media (max-width: 600px) {
     header h1 { font-size: 2rem; }
     .concept-buttons { flex-direction: column; }
+    .input-group { flex-direction: column; border-radius: 10px; }
+    .input-group input { max-width: 100%; border-radius: 50px; }
     .container { padding: 20px; }
 }
