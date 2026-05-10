@@ -219,20 +219,20 @@ header h1 span {
     animation: fadeIn 0.5s ease-out;
 }
 
-.partnership {
+.partnership, .comments {
     margin-top: 60px;
     padding-top: 40px;
     border-top: 2px dashed #eee;
     text-align: center;
 }
 
-.partnership h3 {
+.partnership h3, .comments h3 {
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
     margin-bottom: 10px;
 }
 
-.partnership p {
+.partnership p, .comments p {
     margin-bottom: 25px;
     color: #666;
 }
@@ -267,6 +267,15 @@ header h1 span {
 .contact-form textarea {
     height: 120px;
     resize: none;
+}
+
+.form-status {
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+#disqus_thread {
+    text-align: left;
 }
 
 .hidden {
