@@ -35,26 +35,26 @@
         </header>
 
         <main>
-            <!-- 1. About Us (Introduction for AdSense Content) -->
+            <!-- 1. About Us -->
             <section id="about-section" class="about-us card-style">
                 <h2>About This Portal</h2>
-                <p>본 사이트는 대한민국을 대표하는 5인조 걸그룹 **레드벨벳(Red Velvet)**의 방대한 음악 세계를 더 깊이 즐길 수 있도록 돕는 팬 메이드 서비스입니다. 레드벨벳은 상큼하고 발랄한 'Red' 컨셉과 고혹적이고 부드러운 'Velvet' 컨셉을 넘나들며 독보적인 장르를 구축해왔습니다. 우리는 여러분의 취향을 분석하여 최적의 곡을 추천하고, AI 기술을 통해 멤버들과의 연결고리를 찾아드립니다.</p>
+                <p>본 사이트는 대한민국을 대표하는 5인조 걸그룹 **레드벨벳(Red Velvet)**의 방대한 음악 세계를 더 깊이 즐길 수 있도록 돕는 팬 메이드 서비스입니다. 취향 분석을 통한 곡 추천과 AI 동물상 테스트를 한 번에 만나보세요.</p>
             </section>
 
-            <!-- 2. Song Recommender Section (Primary) -->
+            <!-- 2. Song Recommender Section -->
             <section id="recommender-section" class="content-section">
                 <div class="controls card-style">
                     <div class="section-title">
                         <h3>Smart Recommendation</h3>
-                        <p>현재 기분이나 좋아하는 노래를 입력하면 가장 잘 어울리는 곡을 제안합니다.</p>
+                        <p>좋아하는 노래를 검색하거나 컨셉을 선택해 보세요.</p>
                     </div>
                     <div class="concept-buttons">
                         <button id="btn-red" class="btn btn-red">Red Concept</button>
                         <button id="btn-velvet" class="btn btn-velvet">Velvet Concept</button>
                     </div>
                     <div class="input-group">
-                        <input type="text" id="user-song-input" placeholder="좋아하는 노래 제목을 입력하세요 (예: Psycho)">
-                        <button id="btn-similar" class="btn btn-secondary">맞춤 추천</button>
+                        <input type="text" id="user-song-input" placeholder="곡 제목을 입력하세요 (예: Hype Boy)">
+                        <button id="btn-similar" class="btn btn-secondary">검색 & 추천</button>
                     </div>
                     <button id="btn-random" class="btn btn-primary-outline">랜덤 추천</button>
                 </div>
@@ -64,76 +64,85 @@
                     <p>분석 중...</p>
                 </div>
 
+                <!-- Multiple Search Results Selection -->
+                <div id="search-selection" class="search-selection hidden card-style">
+                    <h4>정확한 곡을 선택해 주세요:</h4>
+                    <div id="search-results-list" class="results-list"></div>
+                </div>
+
                 <section id="recommendation-result" class="result-area hidden">
-                    <div id="search-summary" class="search-summary hidden">
-                        <div class="searched-song-info">
-                            <img id="searched-art" src="" alt="Album Art">
-                            <div class="searched-text">
-                                <p class="label">Your Search</p>
-                                <p id="searched-title" class="title"></p>
-                                <p id="searched-genre" class="genre"></p>
+                    <div class="result-highlight-box">
+                        <div id="search-summary" class="search-summary">
+                            <div class="searched-song-info">
+                                <img id="searched-art" src="" alt="Album Art">
+                                <div class="searched-text">
+                                    <p class="label">Your Choice</p>
+                                    <p id="searched-title" class="title"></p>
+                                    <p id="searched-genre" class="genre"></p>
+                                </div>
+                            </div>
+                            <div class="vibe-arrow">
+                                <span>VIBE MATCHING</span>
+                                <div class="arrow-down">▼</div>
                             </div>
                         </div>
-                        <div class="arrow">▼ Matching ▼</div>
-                    </div>
 
-                    <div class="song-card">
-                        <div class="song-info">
-                            <p class="rec-label">Recommended for you</p>
-                            <h2 id="song-title">Song Title</h2>
-                            <p id="song-album" class="album-name">Album Name</p>
-                            <p id="song-vibe" class="vibe-tag">Red / Velvet</p>
-                            <p id="song-desc" class="description">이 곡은 이런 분위기에요.</p>
+                        <div class="song-card">
+                            <div class="song-info">
+                                <p class="rec-label">Highly Recommended</p>
+                                <h2 id="song-title">Song Title</h2>
+                                <p id="song-album" class="album-name">Album Name</p>
+                                <p id="song-vibe" class="vibe-tag">Red / Velvet</p>
+                                <p id="song-desc" class="description">이 곡은 이런 분위기에요.</p>
+                            </div>
                         </div>
                     </div>
                 </section>
             </section>
 
-            <!-- 3. Red Velvet Member Profiles (Rich Text Content) -->
+            <!-- 3. Red Velvet Member Profiles -->
             <section id="members-section" class="content-section hidden">
                 <div class="members-grid">
                     <article class="member-card">
                         <h3>IRENE (아이린)</h3>
                         <p style="font-size: 0.8rem; color: var(--red-primary); margin-bottom: 10px; font-weight: 700;">Birthday: 1991.03.29</p>
-                        <p>레드벨벳의 리더이자 메인 래퍼. 고전적인 미인상의 정석으로 불리며, 'Velvet' 컨셉에서 중심을 잡아주는 우아한 퍼포먼스가 특징입니다.</p>
+                        <p>레드벨벳의 리더이자 메인 래퍼. 'Velvet' 컨셉의 우아한 퍼포먼스가 특징입니다.</p>
                     </article>
                     <article class="member-card">
                         <h3>SEULGI (슬기)</h3>
                         <p style="font-size: 0.8rem; color: var(--velvet-primary); margin-bottom: 10px; font-weight: 700;">Birthday: 1994.02.10</p>
-                        <p>메인 댄서이자 리드 보컬. 무결점 퍼포먼스와 매력적인 음색을 모두 갖춘 올라운더 플레이어입니다. 특유의 무쌍꺼풀 눈매가 매력적입니다.</p>
+                        <p>메인 댄서이자 리드 보컬. 무결점 퍼포먼스와 올라운더 플레이어로 불립니다.</p>
                     </article>
                     <article class="member-card">
                         <h3>WENDY (웬디)</h3>
                         <p style="font-size: 0.8rem; color: var(--red-primary); margin-bottom: 10px; font-weight: 700;">Birthday: 1994.02.21</p>
-                        <p>메인 보컬. 독보적인 가창력과 섬세한 감정 표현으로 레드벨벳 음악의 깊이를 더해줍니다. 밝고 긍정적인 에너지의 소유자입니다.</p>
+                        <p>메인 보컬. 독보적인 가창력과 섬세한 감정 표현으로 음악의 깊이를 더합니다.</p>
                     </article>
                     <article class="member-card">
                         <h3>JOY (조이)</h3>
                         <p style="font-size: 0.8rem; color: var(--velvet-primary); margin-bottom: 10px; font-weight: 700;">Birthday: 1996.09.03</p>
-                        <p>리드 래퍼이자 서브 보컬. 맑고 청아한 음색이 매력적이며, 화사한 미소로 'Red' 컨셉에서 독보적인 존재감을 드러냅니다.</p>
+                        <p>서브 보컬. 맑고 청아한 음색과 화사한 미소로 'Red' 컨셉의 중심을 잡습니다.</p>
                     </article>
                     <article class="member-card">
                         <h3>YERI (예리)</h3>
                         <p style="font-size: 0.8rem; color: var(--red-primary); margin-bottom: 10px; font-weight: 700;">Birthday: 1999.03.05</p>
-                        <p>서브 보컬이자 서브 래퍼. 팀의 막내로 합류하여 통통 튀는 매력을 더해주었으며, 최근에는 작사/작곡에서도 역량을 보여주고 있습니다.</p>
+                        <p>서브 보컬이자 래퍼. 통통 튀는 매력과 함께 작사/작곡에서도 역량을 발휘합니다.</p>
                     </article>
                 </div>
 
                 <div class="group-history card-style">
-                    <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 20px;">Group History & Milestones</h3>
+                    <h3>Group History & Milestones</h3>
                     <p><strong>데뷔일:</strong> 2014년 8월 1일 (Happiness)</p>
                     <p><strong>팬덤명:</strong> ReVeLuv (레베럽)</p>
-                    <p style="margin-top: 10px; color: #666;">레드벨벳은 데뷔 이후 'Ice Cream Cake', 'Dumb Dumb', '빨간 맛', 'Bad Boy', 'Psycho' 등 수많은 히트곡을 탄생시키며 K-POP을 대표하는 걸그룹으로 자리매칭했습니다. 2024년에는 데뷔 10주년을 맞이하며 변함없는 저력을 과시하고 있습니다.</p>
                 </div>
 
                 <div class="discography card-style">
                     <h3>Discography Highlights</h3>
                     <ul class="disco-list" style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid var(--red-primary);"><strong>Happiness (2014):</strong> 역사적인 데뷔 싱글. 'Red'의 시작.</li>
-                        <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid var(--velvet-primary);"><strong>The Red (2015):</strong> 'Dumb Dumb'이 수록된 첫 정규 앨범.</li>
-                        <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid var(--red-primary);"><strong>Perfect Velvet (2017):</strong> 'Peek-A-Boo'로 완성된 벨벳의 정수.</li>
-                        <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid var(--velvet-primary);"><strong>The ReVe Festival: Finale (2019):</strong> 'Psycho'라는 명곡을 남긴 축제의 정점.</li>
-                        <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid var(--red-primary);"><strong>Chill Kill (2023):</strong> 레드와 벨벳의 결합, 3집 정규 앨범.</li>
+                        <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid var(--red-primary);"><strong>Happiness (2014):</strong> 데뷔 싱글. 'Red'의 시작.</li>
+                        <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid var(--velvet-primary);"><strong>The Red (2015):</strong> 'Dumb Dumb' 수록 정규 앨범.</li>
+                        <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid var(--red-primary);"><strong>Perfect Velvet (2017):</strong> 벨벳의 정수 'Peek-A-Boo'.</li>
+                        <li style="margin-bottom: 15px; padding-left: 20px; border-left: 3px solid var(--velvet-primary);"><strong>Psycho (2019):</strong> 축제의 정점을 찍은 명곡.</li>
                     </ul>
                 </div>
             </section>
@@ -144,27 +153,22 @@
                     <div class="section-title">
                         <span class="badge">AI Technology</span>
                         <h3>동물상 & 멤버 매칭</h3>
-                        <p>최신 AI 모델이 당신의 이미지를 분석하여 가장 닮은 멤버를 찾아드립니다.</p>
+                        <p>사진을 업로드하여 닮은 멤버를 찾아보세요.</p>
                     </div>
                     
                     <div class="ai-container">
                         <div class="file-upload-wrapper">
                             <input type="file" id="image-input" accept="image/*" class="hidden">
                             <label for="image-input" class="btn btn-secondary">사진 업로드</label>
-                            <p class="file-hint">정면 사진을 사용하면 더 정확한 결과가 나옵니다.</p>
                         </div>
-                        
                         <div id="image-preview-container" class="image-preview-wrapper hidden">
                             <img id="image-preview" src="" alt="Preview">
                         </div>
-
                         <div id="ai-loading" class="loading hidden">
                             <div class="spinner"></div>
-                            <p>인공지능이 특징을 추출하고 있습니다...</p>
+                            <p>분석 중...</p>
                         </div>
-
                         <div id="label-container" class="label-wrapper"></div>
-                        
                         <div id="ai-result-match" class="ai-result-match hidden">
                             <p id="match-text"></p>
                         </div>
@@ -174,18 +178,18 @@
 
             <!-- FAQ Section -->
             <section class="faq-section card-style">
-                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 20px;">Frequently Asked Questions</h3>
-                <div class="faq-item" style="margin-bottom: 20px;">
-                    <h4 style="color: var(--red-dark); margin-bottom: 5px;">Q: 'Red'와 'Velvet' 컨셉의 차이는 무엇인가요?</h4>
-                    <p style="color: #666; font-size: 0.95rem;">A: 'Red'는 강렬하고 상큼한 팝 스타일을, 'Velvet'은 부드럽고 매혹적인 R&B/발라드 스타일을 상징합니다. 레드벨벳은 이 두 컨셉을 자유자재로 넘나드는 팀입니다.</p>
+                <h3>Frequently Asked Questions</h3>
+                <div class="faq-item">
+                    <h4>Q: 'Red'와 'Velvet' 컨셉의 차이는 무엇인가요?</h4>
+                    <p>A: 'Red'는 강렬하고 상큼한 팝 스타일을, 'Velvet'은 부드럽고 매혹적인 스타일을 상징합니다.</p>
                 </div>
-                <div class="faq-item" style="margin-bottom: 20px;">
-                    <h4 style="color: var(--velvet-primary); margin-bottom: 5px;">Q: AI 동물상 테스트는 안전한가요?</h4>
-                    <p style="color: #666; font-size: 0.95rem;">A: 네, 매우 안전합니다. 업로드하신 사진은 서버로 전송되거나 저장되지 않으며, 오직 사용자의 브라우저 내에서만 실시간으로 분석되고 즉시 삭제됩니다.</p>
+                <div class="faq-item">
+                    <h4>Q: 노래 추천 기준은?</h4>
+                    <p>A: 사용자가 검색한 곡의 실제 장르와 무드를 분석하여 레드벨벳의 유사한 곡을 매칭합니다.</p>
                 </div>
             </section>
 
-            <!-- AdSense Integration -->
+            <!-- AdSense -->
             <section class="ad-container" style="position: relative; padding-top: 30px;">
                 <p class="ad-label" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: #bbb; letter-spacing: 2px;">ADVERTISEMENT</p>
                 <ins class="adsbygoogle"
@@ -197,22 +201,21 @@
                 <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
             </section>
 
-            <!-- Partnership Section -->
+            <!-- Partnership -->
             <section class="partnership card-style">
                 <h3>Contact & Business</h3>
-                <p>본 사이트와의 제휴나 협업을 원하시면 아래 양식을 작성해 주세요.</p>
                 <form id="contact-form" class="contact-form">
                     <div class="form-row">
                         <input type="text" name="name" placeholder="이름/기업명" required>
-                        <input type="email" name="email" placeholder="회신 받을 이메일" required>
+                        <input type="email" name="email" placeholder="이메일" required>
                     </div>
-                    <textarea name="message" placeholder="상세 문의 내용을 입력해 주세요" required></textarea>
+                    <textarea name="message" placeholder="문의 내용" required></textarea>
                     <button type="submit" id="submit-btn" class="btn btn-primary">보내기</button>
                     <p id="form-status" class="form-status hidden"></p>
                 </form>
             </section>
 
-            <!-- Disqus Section -->
+            <!-- Disqus -->
             <section class="comments card-style">
                 <h3>Fan Interaction</h3>
                 <div id="disqus_thread"></div>
@@ -232,7 +235,7 @@
                 <a href="#" id="open-privacy">개인정보처리방침</a> | 
                 <a href="https://github.com/kimjjjjjhhh/vibe_coding" target="_blank">Open Source</a>
             </div>
-            <p>&copy; 2026 Red Velvet Fan Portal. All images/music rights to SM Entertainment.</p>
+            <p>&copy; 2026 Red Velvet Fan Portal. All rights to SM Entertainment.</p>
         </footer>
     </div>
 
@@ -240,12 +243,9 @@
     <div id="privacy-modal" class="modal hidden">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <h2>Privacy Policy (개인정보처리방침)</h2>
+            <h2>Privacy Policy</h2>
             <div class="privacy-text">
-                <p><strong>1. 개인정보 수집 및 이용:</strong> 본 사이트는 제휴 문의 폼을 통해 이름과 이메일 주소를 수집합니다. 수집된 정보는 문의 사항에 대한 답변 목적으로만 사용됩니다.</p>
-                <p><strong>2. 쿠키(Cookies) 사용:</strong> 본 사이트는 Google AdSense 및 Disqus 서비스를 제공하기 위해 쿠키를 사용합니다. 쿠키는 사용자 맞춤 광고 제공 및 댓글 기능 활성화에 사용됩니다.</p>
-                <p><strong>3. 데이터 보안:</strong> 수집된 개인정보는 안전하게 보호되며, 사용자의 동의 없이 제3자에게 제공되지 않습니다.</p>
-                <p><strong>4. AI 테스트 관련:</strong> 동물상 테스트를 위해 업로드된 사진은 서버에 저장되지 않으며, 사용자의 브라우저 내에서 AI 모델에 의해 즉시 분석된 후 폐기됩니다.</p>
+                <p>본 사이트는 제휴 문의 폼을 통해 입력하신 최소한의 정보만 수집하며, 어떠한 이미지 데이터도 서버에 저장하지 않습니다. 광고 및 댓글 서비스를 위해 쿠키가 사용될 수 있습니다.</p>
             </div>
         </div>
     </div>
