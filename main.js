@@ -230,3 +230,80 @@ contactForm.addEventListener('submit', async (e) => {
         submitBtn.textContent = '문의하기';
     }
 });
+
+// --- AI Animal Face Test Logic ---
+const URL = "./my_model/";
+let model, webcam, labelContainer, maxPredictions;
+const btnAiStart = document.getElementById('btn-ai-start');
+const aiResultMatch = document.getElementById('ai-result-match');
+const matchText = document.getElementById('match-text');
+
+async function initAI() {
+    btnAiStart.disabled = true;
+    btnAiStart.textContent = '모델 로딩 중...';
+    
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
+
+    try {
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+
+        const flip = true;
+        webcam = new tmImage.Webcam(200, 200, flip);
+        await webcam.setup();
+        await webcam.play();
+        window.requestAnimationFrame(loopAI);
+
+        document.getElementById("webcam-container").appendChild(webcam.canvas);
+        labelContainer = document.getElementById("label-container");
+        labelContainer.innerHTML = ''; // Clear previous
+        for (let i = 0; i < maxPredictions; i++) {
+            labelContainer.appendChild(document.createElement("div"));
+        }
+        
+        btnAiStart.classList.add('hidden');
+    } catch (error) {
+        console.error("AI Init Error:", error);
+        alert("AI 모델을 불러오는 중 오류가 발생했습니다. (모델 파일이 ./my_model/ 폴더에 있는지 확인해주세요)");
+        btnAiStart.disabled = false;
+        btnAiStart.textContent = '테스트 시작하기';
+    }
+}
+
+async function loopAI() {
+    webcam.update();
+    await predictAI();
+    window.requestAnimationFrame(loopAI);
+}
+
+async function predictAI() {
+    const prediction = await model.predict(webcam.canvas);
+    let highestProb = 0;
+    let bestClass = "";
+
+    for (let i = 0; i < maxPredictions; i++) {
+        const prob = prediction[i].probability;
+        const className = prediction[i].className;
+        labelContainer.childNodes[i].innerHTML = `${className}: ${(prob * 100).toFixed(0)}%`;
+        
+        if (prob > highestProb) {
+            highestProb = prob;
+            bestClass = className;
+        }
+    }
+
+    // Show matching member
+    if (highestProb > 0.6) {
+        aiResultMatch.classList.remove('hidden');
+        if (bestClass.toLowerCase().includes('dog') || bestClass.includes('강아지')) {
+            matchText.innerHTML = `당신은 귀여운 <strong>강아지상</strong>! <br> 레드벨벳의 <strong>웬디/슬기</strong>와 닮았네요! 🐶`;
+        } else if (bestClass.toLowerCase().includes('cat') || bestClass.includes('고양이')) {
+            matchText.innerHTML = `당신은 매혹적인 <strong>고양이상</strong>! <br> 레드벨벳의 <strong>아이린/조이</strong>와 닮았네요! 🐱`;
+        } else {
+            matchText.innerHTML = `당신은 매력적인 <strong>${bestClass}상</strong>! <br> 레드벨벳 멤버들과 찰떡궁합! ✨`;
+        }
+    }
+}
+
+btnAiStart.addEventListener('click', initAI);
