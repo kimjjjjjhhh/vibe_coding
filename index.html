@@ -1,15 +1,46 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Velvet Song Recommender</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+    <div class="container">
+        <header>
+            <h1>Red Velvet <span>Recommender</span></h1>
+            <p class="subtitle">당신의 기분에 맞는 레드벨벳의 노래를 찾아보세요.</p>
+        </header>
+
+        <main>
+            <section class="controls">
+                <div class="concept-buttons">
+                    <button id="btn-red" class="btn btn-red">Red (상큼발랄)</button>
+                    <button id="btn-velvet" class="btn btn-velvet">Velvet (고혹우아)</button>
+                </div>
+                <button id="btn-random" class="btn btn-primary">랜덤 추천 받기!</button>
+            </section>
+
+            <section id="recommendation-result" class="result-area hidden">
+                <div class="song-card">
+                    <div class="song-info">
+                        <h2 id="song-title">Song Title</h2>
+                        <p id="song-album" class="album-name">Album Name</p>
+                        <p id="song-vibe" class="vibe-tag">Red / Velvet</p>
+                        <p id="song-desc" class="description">이 곡은 이런 분위기에요.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Red Velvet Song Recommender. ReVeLuv Forever.</p>
+        </footer>
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
-
