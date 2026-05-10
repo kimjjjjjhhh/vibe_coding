@@ -184,3 +184,49 @@ btnSimilar.addEventListener('click', recommendSimilar);
 userSongInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') recommendSimilar();
 });
+
+// Formspree AJAX Submission
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+const submitBtn = document.getElementById('submit-btn');
+
+contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(contactForm);
+    const data = Object.fromEntries(formData.entries());
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = '전송 중...';
+    formStatus.classList.add('hidden');
+
+    try {
+        const response = await fetch('https://formspree.io/f/mkoypqpq', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            formStatus.textContent = '✅ 문의가 성공적으로 전송되었습니다! 곧 연락드릴게요.';
+            formStatus.style.color = '#27ae60';
+            formStatus.classList.remove('hidden');
+            contactForm.reset();
+        } else {
+            const errorData = await response.json();
+            formStatus.textContent = '❌ 전송에 실패했습니다. 다시 시도해 주세요.';
+            formStatus.style.color = '#e74c3c';
+            formStatus.classList.remove('hidden');
+        }
+    } catch (error) {
+        formStatus.textContent = '❌ 네트워크 오류가 발생했습니다.';
+        formStatus.style.color = '#e74c3c';
+        formStatus.classList.remove('hidden');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '문의하기';
+    }
+});
