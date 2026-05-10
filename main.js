@@ -184,7 +184,7 @@ if (contactForm) {
             }
         } catch (e) {}
         submitBtn.disabled = false;
-        submitBtn.textContent = '보내기';
+        submitBtn.textContent = '전송하기';
     });
 }
 

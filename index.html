@@ -202,15 +202,30 @@
             </section>
 
             <!-- Partnership -->
-            <section class="partnership card-style">
-                <h3>Contact & Business</h3>
+            <section class="partnership card-style premium-contact">
+                <div class="partnership-header">
+                    <div class="business-icon">✉️</div>
+                    <div class="header-text">
+                        <h3>Contact & Business</h3>
+                        <p>광고 문의 및 제휴 제안을 기다립니다.</p>
+                    </div>
+                </div>
                 <form id="contact-form" class="contact-form">
                     <div class="form-row">
-                        <input type="text" name="name" placeholder="이름/기업명" required>
-                        <input type="email" name="email" placeholder="이메일" required>
+                        <div class="input-field">
+                            <label>Name / Company</label>
+                            <input type="text" name="name" placeholder="성함 또는 기업명" required>
+                        </div>
+                        <div class="input-field">
+                            <label>Email Address</label>
+                            <input type="email" name="email" placeholder="reveluv@example.com" required>
+                        </div>
                     </div>
-                    <textarea name="message" placeholder="문의 내용" required></textarea>
-                    <button type="submit" id="submit-btn" class="btn btn-primary">보내기</button>
+                    <div class="input-field">
+                        <label>Message</label>
+                        <textarea name="message" placeholder="문의하실 내용을 상세히 적어주세요." required></textarea>
+                    </div>
+                    <button type="submit" id="submit-btn" class="btn btn-primary-gradient">전송하기</button>
                     <p id="form-status" class="form-status hidden"></p>
                 </form>
             </section>
