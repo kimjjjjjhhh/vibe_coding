@@ -67,14 +67,31 @@ const btnRandom = document.getElementById('btn-random');
 const btnSimilar = document.getElementById('btn-similar');
 const userSongInput = document.getElementById('user-song-input');
 const resultArea = document.getElementById('recommendation-result');
+const loading = document.getElementById('loading');
+const searchSummary = document.getElementById('search-summary');
 
 const songTitle = document.getElementById('song-title');
 const songAlbum = document.getElementById('song-album');
 const songVibe = document.getElementById('song-vibe');
 const songDesc = document.getElementById('song-desc');
 
-function showRecommendation(song) {
+const searchedArt = document.getElementById('searched-art');
+const searchedTitle = document.getElementById('searched-title');
+const searchedGenre = document.getElementById('searched-genre');
+
+function showRecommendation(song, searchedInfo = null) {
+    loading.classList.add('hidden');
     resultArea.classList.remove('hidden');
+    
+    if (searchedInfo) {
+        searchSummary.classList.remove('hidden');
+        searchedArt.src = searchedInfo.art;
+        searchedTitle.textContent = `${searchedInfo.artist} - ${searchedInfo.title}`;
+        searchedGenre.textContent = `장르: ${searchedInfo.genre}`;
+    } else {
+        searchSummary.classList.add('hidden');
+    }
+
     resultArea.style.opacity = '0';
     setTimeout(() => {
         songTitle.textContent = song.title;
@@ -94,33 +111,58 @@ function showRecommendation(song) {
     }, 50);
 }
 
-function recommendSimilar() {
-    const input = userSongInput.value.trim().toLowerCase();
-    if (!input) {
+async function recommendSimilar() {
+    const query = userSongInput.value.trim();
+    if (!query) {
         alert('노래 제목을 입력해 주세요!');
         return;
     }
 
-    // Simple keyword based matching logic for demo purposes
-    const redKeywords = ['hype', 'attention', 'bubble', 'pop', 'sunny', 'summer', 'happy', 'bright', 'love', 'cheer'];
-    const velvetKeywords = ['night', 'dark', 'moody', 'slow', 'r&b', 'cool', 'chill', 'smooth', 'deep', 'dreamy'];
+    loading.classList.remove('hidden');
+    resultArea.classList.add('hidden');
 
-    const isRedMatched = redKeywords.some(keyword => input.includes(keyword));
-    const isVelvetMatched = velvetKeywords.some(keyword => input.includes(keyword));
+    try {
+        const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=1`);
+        const data = await response.json();
 
-    let recommendedSong;
-    if (isRedMatched) {
-        const redSongs = songs.filter(s => s.concept === 'Red');
-        recommendedSong = redSongs[Math.floor(Math.random() * redSongs.length)];
-    } else if (isVelvetMatched) {
-        const velvetSongs = songs.filter(s => s.concept === 'Velvet');
-        recommendedSong = velvetSongs[Math.floor(Math.random() * velvetSongs.length)];
-    } else {
-        // Random fallback with a note
-        recommendedSong = songs[Math.floor(Math.random() * songs.length)];
+        if (data.results.length === 0) {
+            alert('노래 정보를 찾을 수 없습니다. 랜덤으로 추천해 드릴게요!');
+            showRecommendation(songs[Math.floor(Math.random() * songs.length)]);
+            return;
+        }
+
+        const track = data.results[0];
+        const genre = track.primaryGenreName.toLowerCase();
+        
+        const searchedInfo = {
+            title: track.trackName,
+            artist: track.artistName,
+            genre: track.primaryGenreName,
+            art: track.artworkUrl100.replace('100x100bb', '300x300bb')
+        };
+
+        // Advanced genre matching
+        const redGenres = ['k-pop', 'pop', 'dance', 'electronic', 'teen pop', 'j-pop'];
+        const velvetGenres = ['r&b/soul', 'r&b', 'soul', 'jazz', 'ballad', 'blues', 'vocal'];
+
+        let recommendedSong;
+        if (redGenres.some(g => genre.includes(g))) {
+            const redSongs = songs.filter(s => s.concept === 'Red');
+            recommendedSong = redSongs[Math.floor(Math.random() * redSongs.length)];
+        } else if (velvetGenres.some(g => genre.includes(g))) {
+            const velvetSongs = songs.filter(s => s.concept === 'Velvet');
+            recommendedSong = velvetSongs[Math.floor(Math.random() * velvetSongs.length)];
+        } else {
+            recommendedSong = songs[Math.floor(Math.random() * songs.length)];
+        }
+
+        showRecommendation(recommendedSong, searchedInfo);
+
+    } catch (error) {
+        console.error('API Error:', error);
+        alert('정보를 가져오는 중 오류가 발생했습니다. 랜덤 추천으로 전환합니다.');
+        showRecommendation(songs[Math.floor(Math.random() * songs.length)]);
     }
-
-    showRecommendation(recommendedSong);
 }
 
 btnRed.addEventListener('click', () => {

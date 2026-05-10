@@ -31,9 +31,29 @@
                 <button id="btn-random" class="btn btn-primary">랜덤 추천 받기!</button>
             </section>
 
+            <!-- Loading Spinner -->
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>노래 정보를 분석 중입니다...</p>
+            </div>
+
             <section id="recommendation-result" class="result-area hidden">
+                <!-- User's Search Summary -->
+                <div id="search-summary" class="search-summary hidden">
+                    <div class="searched-song-info">
+                        <img id="searched-art" src="" alt="Album Art">
+                        <div class="searched-text">
+                            <p class="label">당신이 선택한 곡</p>
+                            <p id="searched-title" class="title"></p>
+                            <p id="searched-genre" class="genre"></p>
+                        </div>
+                    </div>
+                    <div class="arrow">▼</div>
+                </div>
+
                 <div class="song-card">
                     <div class="song-info">
+                        <p class="rec-label">추천 레드벨벳 노래</p>
                         <h2 id="song-title">Song Title</h2>
                         <p id="song-album" class="album-name">Album Name</p>
                         <p id="song-vibe" class="vibe-tag">Red / Velvet</p>
