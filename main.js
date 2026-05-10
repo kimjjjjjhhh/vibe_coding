@@ -61,6 +61,29 @@ const songs = [
     }
 ];
 
+// --- Navigation Toggle Logic ---
+const navRecommender = document.getElementById('nav-recommender');
+const navAiTest = document.getElementById('nav-aitest');
+const recommenderSection = document.getElementById('recommender-section');
+const aiTestSection = document.getElementById('aitest-section');
+
+navRecommender.addEventListener('click', () => {
+    navRecommender.classList.add('active');
+    navAiTest.classList.remove('active');
+    recommenderSection.classList.remove('hidden');
+    aiTestSection.classList.add('hidden');
+});
+
+navAiTest.addEventListener('click', () => {
+    navAiTest.classList.add('active');
+    navRecommender.classList.remove('active');
+    aiTestSection.classList.remove('hidden');
+    recommenderSection.classList.add('hidden');
+    // Pre-load model if not loaded
+    if (!model) initAI();
+});
+
+// --- Recommender Elements ---
 const btnRed = document.getElementById('btn-red');
 const btnVelvet = document.getElementById('btn-velvet');
 const btnRandom = document.getElementById('btn-random');
@@ -141,7 +164,6 @@ async function recommendSimilar() {
             art: track.artworkUrl100.replace('100x100bb', '300x300bb')
         };
 
-        // Advanced genre matching
         const redGenres = ['k-pop', 'pop', 'dance', 'electronic', 'teen pop', 'j-pop'];
         const velvetGenres = ['r&b/soul', 'r&b', 'soul', 'jazz', 'ballad', 'blues', 'vocal'];
 
@@ -185,125 +207,133 @@ userSongInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') recommendSimilar();
 });
 
-// Formspree AJAX Submission
+// --- Formspree Logic ---
 const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
 const submitBtn = document.getElementById('submit-btn');
 
-contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(contactForm);
-    const data = Object.fromEntries(formData.entries());
-    
-    submitBtn.disabled = true;
-    submitBtn.textContent = '전송 중...';
-    formStatus.classList.add('hidden');
-
-    try {
-        const response = await fetch('https://formspree.io/f/mkoypqpq', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData.entries());
+        submitBtn.disabled = true;
+        submitBtn.textContent = '전송 중...';
+        formStatus.classList.add('hidden');
+        try {
+            const response = await fetch('https://formspree.io/f/mkoypqpq', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                formStatus.textContent = '✅ 문의가 성공적으로 전송되었습니다!';
+                formStatus.style.color = '#27ae60';
+                formStatus.classList.remove('hidden');
+                contactForm.reset();
+            } else {
+                formStatus.textContent = '❌ 전송 실패. 다시 시도해 주세요.';
+                formStatus.style.color = '#e74c3c';
+                formStatus.classList.remove('hidden');
             }
-        });
-
-        if (response.ok) {
-            formStatus.textContent = '✅ 문의가 성공적으로 전송되었습니다! 곧 연락드릴게요.';
-            formStatus.style.color = '#27ae60';
+        } catch (error) {
+            formStatus.textContent = '❌ 네트워크 오류 발생.';
             formStatus.classList.remove('hidden');
-            contactForm.reset();
-        } else {
-            const errorData = await response.json();
-            formStatus.textContent = '❌ 전송에 실패했습니다. 다시 시도해 주세요.';
-            formStatus.style.color = '#e74c3c';
-            formStatus.classList.remove('hidden');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '문의하기';
         }
-    } catch (error) {
-        formStatus.textContent = '❌ 네트워크 오류가 발생했습니다.';
-        formStatus.style.color = '#e74c3c';
-        formStatus.classList.remove('hidden');
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = '문의하기';
-    }
-});
+    });
+}
 
-// --- AI Animal Face Test Logic ---
-const URL = "./my_model/";
-let model, webcam, labelContainer, maxPredictions;
-const btnAiStart = document.getElementById('btn-ai-start');
+// --- AI Animal Face Test Logic (Updated to File Upload) ---
+const MODEL_URL = "./my_model/";
+let model, maxPredictions;
+
+const imageInput = document.getElementById('image-input');
+const imagePreview = document.getElementById('image-preview');
+const imagePreviewContainer = document.getElementById('image-preview-container');
+const aiLoading = document.getElementById('ai-loading');
+const labelContainer = document.getElementById('label-container');
 const aiResultMatch = document.getElementById('ai-result-match');
 const matchText = document.getElementById('match-text');
 
 async function initAI() {
-    btnAiStart.disabled = true;
-    btnAiStart.textContent = '모델 로딩 중...';
-    
-    const modelURL = URL + "model.json";
-    const metadataURL = URL + "metadata.json";
+    const modelURL = MODEL_URL + "model.json";
+    const metadataURL = MODEL_URL + "metadata.json";
 
     try {
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
-
-        const flip = true;
-        webcam = new tmImage.Webcam(200, 200, flip);
-        await webcam.setup();
-        await webcam.play();
-        window.requestAnimationFrame(loopAI);
-
-        document.getElementById("webcam-container").appendChild(webcam.canvas);
-        labelContainer = document.getElementById("label-container");
-        labelContainer.innerHTML = ''; // Clear previous
-        for (let i = 0; i < maxPredictions; i++) {
-            labelContainer.appendChild(document.createElement("div"));
-        }
-        
-        btnAiStart.classList.add('hidden');
+        console.log("AI Model Loaded Successfully");
     } catch (error) {
-        console.error("AI Init Error:", error);
-        alert("AI 모델을 불러오는 중 오류가 발생했습니다. (모델 파일이 ./my_model/ 폴더에 있는지 확인해주세요)");
-        btnAiStart.disabled = false;
-        btnAiStart.textContent = '테스트 시작하기';
+        console.error("AI Model Load Error:", error);
+        // We won't alert here immediately, but we'll show a message if they try to upload
     }
 }
 
-async function loopAI() {
-    webcam.update();
-    await predictAI();
-    window.requestAnimationFrame(loopAI);
-}
+imageInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+        imagePreview.src = event.target.result;
+        imagePreviewContainer.classList.remove('hidden');
+        aiResultMatch.classList.add('hidden');
+        labelContainer.innerHTML = '';
+        
+        if (!model) {
+            aiLoading.classList.remove('hidden');
+            await initAI();
+            aiLoading.classList.add('hidden');
+        }
+
+        if (model) {
+            predictAI();
+        } else {
+            alert("AI 모델을 불러오지 못했습니다. './my_model/' 폴더에 모델 파일이 있는지 확인해주세요.");
+        }
+    };
+    reader.readAsDataURL(file);
+});
 
 async function predictAI() {
-    const prediction = await model.predict(webcam.canvas);
-    let highestProb = 0;
-    let bestClass = "";
-
-    for (let i = 0; i < maxPredictions; i++) {
-        const prob = prediction[i].probability;
-        const className = prediction[i].className;
-        labelContainer.childNodes[i].innerHTML = `${className}: ${(prob * 100).toFixed(0)}%`;
+    aiLoading.classList.remove('hidden');
+    
+    // Tiny delay to ensure image is rendered
+    setTimeout(async () => {
+        const prediction = await model.predict(imagePreview);
+        aiLoading.classList.add('hidden');
         
-        if (prob > highestProb) {
-            highestProb = prob;
-            bestClass = className;
-        }
-    }
+        let highestProb = 0;
+        let bestClass = "";
 
-    // Show matching member
-    if (highestProb > 0.6) {
-        aiResultMatch.classList.remove('hidden');
-        if (bestClass.toLowerCase().includes('dog') || bestClass.includes('강아지')) {
-            matchText.innerHTML = `당신은 귀여운 <strong>강아지상</strong>! <br> 레드벨벳의 <strong>웬디/슬기</strong>와 닮았네요! 🐶`;
-        } else if (bestClass.toLowerCase().includes('cat') || bestClass.includes('고양이')) {
-            matchText.innerHTML = `당신은 매혹적인 <strong>고양이상</strong>! <br> 레드벨벳의 <strong>아이린/조이</strong>와 닮았네요! 🐱`;
-        } else {
-            matchText.innerHTML = `당신은 매력적인 <strong>${bestClass}상</strong>! <br> 레드벨벳 멤버들과 찰떡궁합! ✨`;
+        labelContainer.innerHTML = '';
+        for (let i = 0; i < maxPredictions; i++) {
+            const prob = prediction[i].probability;
+            const className = prediction[i].className;
+            
+            const div = document.createElement('div');
+            div.innerHTML = `${className}: ${(prob * 100).toFixed(0)}%`;
+            labelContainer.appendChild(div);
+
+            if (prob > highestProb) {
+                highestProb = prob;
+                bestClass = className;
+            }
         }
-    }
+
+        if (highestProb > 0.4) {
+            aiResultMatch.classList.remove('hidden');
+            const lowerClass = bestClass.toLowerCase();
+            if (lowerClass.includes('dog') || lowerClass.includes('강아지')) {
+                matchText.innerHTML = `당신은 귀여운 <strong>강아지상</strong>! <br> 레드벨벳의 <strong>웬디/슬기</strong>와 닮았네요! 🐶`;
+            } else if (lowerClass.includes('cat') || lowerClass.includes('고양이')) {
+                matchText.innerHTML = `당신은 매혹적인 <strong>고양이상</strong>! <br> 레드벨벳의 <strong>아이린/조이</strong>와 닮았네요! 🐱`;
+            } else {
+                matchText.innerHTML = `당신은 매력적인 <strong>${bestClass}상</strong>! <br> 레드벨벳 멤버들과 환상적인 조화! ✨`;
+            }
+        }
+    }, 200);
 }
-
-btnAiStart.addEventListener('click', initAI);
